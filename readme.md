@@ -46,7 +46,7 @@ systemctl start redis-server
 or
 
 ```sh
-sytemctl start valkey
+systemctl start valkey
 ```
 
 ### 正常に動作しているかチェック
