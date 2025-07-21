@@ -43,12 +43,8 @@ fn main() {
                     let key = args[2].clone();
                     let value = args[3].clone();
                     match set_to_redis(con, key.clone(), value.clone()) {
-                        Ok(..) => {
-                            println!("データ登録完了：キー{}, 値={}", key, value);
-                        }
-                        Err(e) => {
-                            println!("登録失敗：{}", e);
-                        }
+                        Ok(..) => println!("データ登録完了：キー{}, 値={}", key, value),
+                        Err(e) => println!("登録失敗：{}", e),
                     }
                 }
                 "get" => {
@@ -58,12 +54,8 @@ fn main() {
                     }
                     let key = args[2].clone();
                     match get_from_redis(con, key.clone()) {
-                        Ok(value) => {
-                            println!("データ取得完了：キー{}, 値={}", key, value);
-                        }
-                        Err(e) => {
-                            println!("取得失敗：{}", e);
-                        }
+                        Ok(value) => println!("データ取得完了：キー{}, 値={}", key, value),
+                        Err(e) => println!("取得失敗：{}", e),
                     }
                 }
                 _ => {
