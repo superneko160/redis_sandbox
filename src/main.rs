@@ -37,23 +37,23 @@ fn parse_args() -> Result<(String, Vec<String>), String> {
 // 実行方法の表示
 fn show_usage() {
     eprintln!("usage:");
-    eprintln!("  cargo run add <key> <value>");
+    eprintln!("  cargo run set <key> <value>");
     eprintln!("  cargo run get <key>");
 }
 
 // コマンドの実行
 fn execute_command(con: redis::Connection, command: &str, params: &[String]) -> Result<(), String> {
     match command {
-        "add" => execute_add_command(con, params),
+        "set" => execute_set_command(con, params),
         "get" => execute_get_command(con, params),
-        _  => Err("無効なコマンドです。'add' または 'get' を使用してください。".to_string())
+        _  => Err("無効なコマンドです。'set' または 'get' を使用してください。".to_string())
     }
 }
 
-// addコマンドの実行
-fn execute_add_command(con: redis::Connection, params: &[String]) -> Result<(), String> {
+// setコマンドの実行
+fn execute_set_command(con: redis::Connection, params: &[String]) -> Result<(), String> {
     if params.len() != 2 {
-        return Err("usage: cargo run add <key> <value>".to_string());
+        return Err("usage: cargo run set <key> <value>".to_string());
     }
     
     match set_to_redis(con, &params[0], &params[1]) {
