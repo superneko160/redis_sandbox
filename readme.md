@@ -61,8 +61,8 @@ redis-cli ping
 ### データ登録
 
 ```sh
-cargo run add <key> <value>
-cargo run add A100 Alice
+cargo run set <key> <value>
+cargo run set A100 Alice
 ```
 
 ### データ取得
