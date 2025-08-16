@@ -10,13 +10,13 @@ fn connection_handling() -> redis::RedisResult<redis::Connection> {
 }
 
 // Redisにデータを挿入
-fn set_to_redis(mut con: redis::Connection, key: String, value: String) -> redis::RedisResult<()> {
+fn set_to_redis(mut con: redis::Connection, key: &str, value: &str) -> redis::RedisResult<()> {
     let _: () = con.set(&key, &value)?;
     Ok(())
 }
 
 // Redisからデータを取得
-fn get_from_redis(mut con: redis::Connection, key: String) -> redis::RedisResult<String> {
+fn get_from_redis(mut con: redis::Connection, key: &str) -> redis::RedisResult<String> {
    Ok(con.get(&key)?)
 }
 
@@ -56,12 +56,9 @@ fn execute_add_command(con: redis::Connection, params: &[String]) -> Result<(), 
         return Err("usage: cargo run add <key> <value>".to_string());
     }
     
-    let key = params[0].clone();
-    let value = params[1].clone();
-
-    match set_to_redis(con, key.clone(), value.clone()) {
+    match set_to_redis(con, &params[0], &params[1]) {
         Ok(..) => {
-            println!("データ登録完了：キー{}, 値={}", key, value);
+            println!("データ登録完了：キー={}, 値={}", &params[0], &params[1]);
             Ok(())
         }
         Err(e) => {
@@ -76,11 +73,9 @@ fn execute_get_command(con: redis::Connection, params: &[String]) -> Result<(), 
         return Err("usage: cargo run get <key> <value>".to_string());
     }
     
-    let key = params[0].clone();
-    
-    match get_from_redis(con, key.clone()) {
+    match get_from_redis(con, &params[0]) {
         Ok(value) => {
-            println!("データ取得完了：キー{}, 値={}", key, value);
+            println!("データ取得完了：キー={}, 値={}", &params[0], value);
             Ok(())
         }
         Err(e) => {
